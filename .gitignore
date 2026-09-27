@@ -1,16 +1,11 @@
-Binaries
-DerivedDataCache
-Intermediate
-Saved
-Build
+# ── 仅本地、不进公开仓库（见 Docs/README.md）──
+# 原版游戏视频截帧考据素材（版权风险 + 体积 228MB）
+Docs/_ref_analysis/
 
-.vscode
-.vs
-*.VC.db
-*.opensdf
-*.opendb
-*.sdf
-*.sln
-*.suo
-*.xcodeproj
-*.xcworkspace
+# 一次性文档处理脚本与临时产物
+Docs/_work/
+
+# 编辑器/系统临时文件
+Thumbs.db
+desktop.ini
+*~
