@@ -39,3 +39,9 @@
   ![留云借风洞天 · 关卡设计草图 —— 11 节点拓扑 + 玩家顺序](关卡设计草图.png)
 
 - **明天第一件事**：建 `Content/Maps/L_LY_Blockout`（Empty Level，关 World Partition）→ Kill Z `-2000` + World Bounds Checks → 放 PlayerStart（①号石厅一端，Z 高于地面 100～200 uu）→ 基础光照（Directional Light + SkyLight + SkyAtmosphere）→ 搭 ① 石厅与 ② 火方碑岛白盒。
+
+### 2026-09-28
+
+- **今天做了**：M2开始，建level，设置+打光+白盒搭建大部分底座和连接
+- **截图**：![白盒](Images/M2_blockout_persp.png)
+- **明天第一件事**：白盒摆完底座，开始做机关占位
