@@ -15,6 +15,9 @@
 #include "LiuYunCaveDemoCharacter.h"
 #include "LY_PlayerCharacter.generated.h"
 
+class ULY_InteractComponent;
+class UInputAction;
+
 /**
  * 玩家角色基类。
  * 移动 / 跳跃 / 镜头的默认值参考 02_关卡考据与设计.md 的 2.2 UE5 尺度规范。
@@ -32,6 +35,9 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+	/** 绑定 E 键。父类已经绑了移动 / 跳跃 / 镜头，这里只补交互 */
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 public:
 	// ---------------- 移动手感 ----------------
@@ -70,4 +76,24 @@ public:
 	/** 相机是否做碰撞检测（撞墙时自动拉近，防止穿墙） */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LY|Player|Camera")
 	bool bLYCameraCollisionTest = true;
+
+	// ---------------- 交互 ----------------
+
+	/** 交互组件：定时打射线找目标，并提供 TryInteract() 供 E 键调用 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LY|Interact",
+		meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<ULY_InteractComponent> InteractComponent;
+
+	/** E 键对应的输入动作。在 BP_LY_PlayerCharacter 里指定 IA_LY_Interact */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LY|Interact",
+		meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInputAction> InteractAction;
+
+	/** 蓝图里取交互组件（例如收 OnInteractTargetChanged 更新 UI） */
+	UFUNCTION(BlueprintPure, Category = "LY|Interact")
+	ULY_InteractComponent* GetInteractComponent() const { return InteractComponent; }
+
+private:
+	/** E 键回调：交给交互组件去判断当前目标并执行 */
+	void OnInteractPressed();
 };

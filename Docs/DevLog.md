@@ -52,3 +52,15 @@
 - **卡在哪 / 怎么解决**：09-28 搭完的那批白盒当时没存盘、差点整批丢失（`L_LY_Blockout.umap` 时间戳一直停在 09-28）；Ctrl+Shift+S 存盘后确认落地，此后收工先存盘再走。
 - **截图**：![M2 白盒完成（俯视）](Images/M2_blockout_final.png)
 - **明天第一件事**：跑完整动线并计时（①→②→③→④→⑤→⑥→⑤→④→⑤→⑦→⑧→⑨→⑩→③→⑪，验收 12–18 min）；故意坠一次验证 Kill Z；随后把白盒复制冻结为 `L_LY_Domain` 并打 tag `M2`。
+
+### 2026-10-05
+
+- **今天做了**：M3 交互系统主体完成 —— 新建接口 `ILY_Interactable`（`CanInteract` / `Interact` / `GetInteractPrompt` / `SetHighlighted`）+ 玩家组件 `ULY_InteractComponent`（Timer 每 0.1s 从相机打 `Visibility` 射线，目标变化广播 `OnInteractTargetChanged`）。
+- **今天做了**：`ALY_PlayerCharacter` 挂组件 + 绑 E 键；关卡内摆临时测试物，按 E 已能触发（截图）。
+- **今天做了**：组件新增 `OnInteractPerformed` 广播——「交互成功」只由 C++ 宣布，蓝图拿它做按下的即时反馈
+- **决策**：射线仍从相机出发（保留屏幕正中心瞄准），长度 = 相机到角色距离 + `InteractRange`
+- **卡在哪 / 怎么解决**：蓝图一旦实现 `Can Interact` 就绕过 C++ 的默认 true，**必须连 Return 并勾 true**，否则永远锁不上目标（调试线恒为黄色）。
+- **卡在哪 / 怎么解决**：Live Coding 热重载给父类加组件后 `BP_LY_PlayerCharacter` 存盘失败 → 完全重启编辑器即恢复；以后加组件后直接重启。
+- **结论**：PIE 全屏（F11）角色偏右、Standalone 正常 = PIE 窗口 / DPI 缩放问题，打包无影响，不动相机。
+- **明天第一件事**：做 `WBP_LY_InteractPrompt`（`FadeIn` / `FadeOut`（含闪光）/ `Pulse` 三条动画）+ 玩家蓝图接线（`OnInteractTargetChanged` 管显示隐藏、`OnInteractPerformed` 播 `Pulse`），跑完 M3 四条验收后打 tag `M3`。
+- **截图**：![M3 交互测试：按 E 触发交互](Images/M3_interact_success.jpg)
