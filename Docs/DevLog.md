@@ -64,3 +64,13 @@
 - **结论**：PIE 全屏（F11）角色偏右、Standalone 正常 = PIE 窗口 / DPI 缩放问题，打包无影响，不动相机。
 - **明天第一件事**：做 `WBP_LY_InteractPrompt`（`FadeIn` / `FadeOut`（含闪光）/ `Pulse` 三条动画）+ 玩家蓝图接线（`OnInteractTargetChanged` 管显示隐藏、`OnInteractPerformed` 播 `Pulse`），跑完 M3 四条验收后打 tag `M3`。
 - **截图**：![M3 交互测试：按 E 触发交互](Images/M3_interact_success.jpg)
+
+### 2026-10-15
+
+- **今天做了**：M3 交互提示 UI 收尾 —— `WBP_LY_InteractPrompt`（E 键圆底 + 提示文字圆角底，半透明黑）+ 三条动画 `FadeIn` / `FadeOut` / `PulseKey`；玩家蓝图接线：`OnInteractTargetChanged` 管显示/隐藏/换文字，`OnInteractPerformed` 播 `PulseKey`。
+- **今天做了**：统一三类可交互物的反馈 —— ①②（永久 / 暂时不可交互）交互后物品 `CanInteract` 返回 false，组件重算丢失目标 → `FadeOut`；③（仍可交互）目标不变 → 只播 `PulseKey`。三类共用一套逻辑，物品自己决定 `CanInteract`，未新增接口。
+- **决策**：放弃材质渐变方案，改用两个独立 Border；放弃 `JustInteracted` + `FlashOut` 方案（组件只在「目标变化」时广播，第③类目标不变收不到事件，UI 无法反馈）。
+- **卡在哪 / 怎么解决**：按 E 无 UI 反应 = 测试物不是一次性的、目标没变所以无广播（Print String 能出，说明链路已通）。
+- **验收**：M3 四条全过（靠近显示 / 离开消失 / 按下一定生效 / 不同物体文字不同）。
+- **明天第一件事**：打 tag `M3` → 进入 M4（`ALY_MechanicBase` + `ALY_FirePillar` 火元素方碑）。
+- **截图**：![M3 交互提示 UI](Images/M3_interact_prompt.jpg)
