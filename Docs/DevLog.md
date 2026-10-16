@@ -72,5 +72,16 @@
 - **决策**：放弃材质渐变方案，改用两个独立 Border；放弃 `JustInteracted` + `FlashOut` 方案（组件只在「目标变化」时广播，第③类目标不变收不到事件，UI 无法反馈）。
 - **卡在哪 / 怎么解决**：按 E 无 UI 反应 = 测试物不是一次性的、目标没变所以无广播（Print String 能出，说明链路已通）。
 - **验收**：M3 四条全过（靠近显示 / 离开消失 / 按下一定生效 / 不同物体文字不同）。
-- **明天第一件事**：打 tag `M3` → 进入 M4（`ALY_MechanicBase` + `ALY_FirePillar` 火元素方碑）。
+- **明天第一件事**：进入 M4（`ALY_MechanicBase` + `ALY_FirePillar` 火元素方碑）。
 - **截图**：![M3 交互提示 UI](Images/M3_interact_prompt.jpg)
+
+### 2026-10-16
+
+- **今天做了**：M4 火元素方碑添加所有cpp相关文件，闭环完成 —— 项目第一个「完整机关闭环」（交互 → 状态改变 → 广播 → 表现更新）
+- **今天做了**：`BP_LY_FirePillar`（BasePlate / Body / FireCore 三组件；火核 NoCollision）里把 `OnLitVisuals` 接成「火核显隐」；关卡蓝图搭「交互 2 号 → 翻转 1、3」的链式验证。
+- **重大决策**：谜题规则**不能**监听 `OnLitChanged` —— 它是「结果」事件。方碑只保留 `SetLit` / `ToggleLit`，谜题规则留给未来单独的**谜题总控**（BP 或 C++）。
+- **重大决策**：方碑 `Interact` 保留「点亮自己」；不做「可反复交互」（`CanInteract` 仍只放行 `Available`）。
+- **重大决策**：验收④「亮/暗视觉区分」**只做火核显隐**，不切柱身材质；发光材质 + 点光留 M7/M9。
+- **验收**：M4 四条全过（① 交互后状态切换 ② 状态变化广播给监听者 ③ 重复触发不出错 ④ 亮/暗视觉区分）。
+- **明天第一件事**：进入 M5 · 旋转光桥（`ALY_RotatingBridge` + `ALY_LightPath`），核心难点 = 角度对齐判定（浮点别用 `==`）。
+- **截图**：![M4 火方碑：走到方碑前出现「按 E 点燃」，两侧方碑已被点亮](Images/M4_firepillar_lit.jpg)
