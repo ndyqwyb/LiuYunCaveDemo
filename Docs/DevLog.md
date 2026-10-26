@@ -85,3 +85,13 @@
 - **验收**：M4 四条全过（① 交互后状态切换 ② 状态变化广播给监听者 ③ 重复触发不出错 ④ 亮/暗视觉区分）。
 - **明天第一件事**：进入 M5 · 旋转光桥（`ALY_RotatingBridge` + `ALY_LightPath`），核心难点 = 角度对齐判定（浮点别用 `==`）。
 - **截图**：![M4 火方碑：走到方碑前出现「按 E 点燃」，两侧方碑已被点亮](Images/M4_firepillar_lit.jpg)
+
+### 2026-10-26
+
+- **今天做了**：M5 起步，C++ 写完 `ALY_LightPath`
+- **今天做了**：建光桥材质 `M_LY_LightBridge` + 实例 `MI_LY_LightBridge`，单个标量 `Wipe` 驱动擦除，坐标用 `LocalPosition` 映射 0–1、不依赖 UV。
+- **定稿（M5 逻辑）**：严格串行「当前朝向全收 → 旋转 → 新朝向全长」；近端=靠转盘一端，远端=远离转盘一端；新朝向的桥靠关卡里填的「朝向→桥清单」查表，运行时不做射线/Overlap 检测；每次固定 90°，没有「对齐完成」。
+- **定稿（组件边界）**：光桥是独立 Actor，转盘 `ALY_RotatingBridge` 自身旋转、不加组件；转盘不可被玩家交互（`CanInteract=false`），控制按钮属于 M13 操控台；桥上不可交互，收回开始即关碰撞。
+- **重大决策**：不做分段可见性，直接做最终版材质擦除（`Wipe` 0=全灭 / 1=全亮）；桥用一整根薄盒 + 本地坐标材质，暂时不用 SplineMesh，后续换模型只需改长度参数。
+- **明天第一件事**：建 `BP_LY_LightPath`（动态材质实例 + Timeline 驱动 `Wipe` + `SetPlayRate`=Timeline 长度/Duration）→ 关卡临时按键验 Grow/Retract 与碰撞时机。
+- **截图**：![M5 光桥材质 v1 实测](Images/M5_lightbridge_material.jpg)
